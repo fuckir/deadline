@@ -1,0 +1,24 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
+    <servers>
+        <server>
+            <id>department-repository</id>
+            <username>yandexqedeploy</username>
+            <password>yandexqedeploy</password>
+        </server>
+    </servers>
+
+    <profiles>
+        <profile>
+            <id>qe</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <department>qe_quality</department>
+                <upload-url>http://qa.yandex-team.ru/aqua/profiles/upload.xml</upload-url>
+                <post-url>aqua.yandex-team.ru</post-url>
+            </properties>
+        </profile>
+    </profiles>
+</settings>

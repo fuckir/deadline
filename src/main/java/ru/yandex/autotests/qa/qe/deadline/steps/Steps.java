@@ -45,7 +45,7 @@ public class Steps {
     public void login() {
         mainPage.getLoginLink().click();
         loginPage.getLogin().sendKeys("FuckIR");
-        loginPage.getPassword().sendKeys("ctvm77");
+        loginPage.getPassword().sendKeys("test");
         loginPage.getLoginButton().click();
     }
 

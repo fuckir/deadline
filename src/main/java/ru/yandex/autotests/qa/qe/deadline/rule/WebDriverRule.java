@@ -1,5 +1,14 @@
 package ru.yandex.autotests.qa.qe.deadline.rule;
 
+import ru.yandex.qatools.allure.annotations.Attachment;
+import ru.yandex.qatools.selenium.grid.GridClient;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
+import java.util.Set;
+
+
 import org.junit.internal.AssumptionViolatedException;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
@@ -9,150 +18,150 @@ import org.openqa.selenium.interactions.Keyboard;
 import org.openqa.selenium.interactions.Mouse;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import ru.yandex.qatools.allure.annotations.Attachment;
-import ru.yandex.qatools.selenium.grid.GridClient;
-
-import java.util.List;
-import java.util.Set;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class WebDriverRule extends TestWatcher implements WebDriver, TakesScreenshot, HasInputDevices, JavascriptExecutor {
-    private WebDriver driver;
-    private DesiredCapabilities caps;
+  private WebDriver driver;
+  private DesiredCapabilities caps;
 
-    public WebDriverRule(DesiredCapabilities caps) {
-        this.caps = caps;
+  public WebDriverRule(DesiredCapabilities caps) {
+    this.caps = caps;
+  }
+
+  public WebDriverRule(WebDriver webDriver) {
+    this.driver = webDriver;
+  }
+
+  protected void starting(Description description) {
+    this.getDriver();
+  }
+
+  protected void finished(Description description) {
+    if (this.driver != null && this.isRemoteSessionActive()) {
+      this.driver.quit();
     }
 
-    public WebDriverRule(WebDriver webDriver) {
-        this.driver = webDriver;
+    this.driver = null;
+  }
+
+  protected void failed(Throwable e, Description description) {
+    try {
+      makeScreenshot();
+    } catch (RuntimeException err) {
+      err.printStackTrace();
     }
 
-    protected void starting(Description description) {
-        this.getDriver();
+  }
+
+  protected void skipped(AssumptionViolatedException e, Description description) {
+    makeScreenshot();
+  }
+
+  @Attachment(
+      type = "image/png"
+  )
+  public byte[] makeScreenshot() {
+    return ((TakesScreenshot) (new Augmenter()).augment(this.driver)).getScreenshotAs(OutputType.BYTES);
+  }
+
+  public WebDriver getDriver() {
+    if (this.driver == null) {
+      try {
+        this.driver = new RemoteWebDriver(new URL(String.format("http://%s:%s@%s:%s/wd/hub", "ff", "pp", "localhost", 4444)), caps);
+      } catch (MalformedURLException e) {
+        throw new RuntimeException("Аailed to open browser");
+      }
     }
 
-    protected void finished(Description description) {
-        if(this.driver != null && this.isRemoteSessionActive()) {
-            this.driver.quit();
-        }
+    return this.driver;
+  }
 
-        this.driver = null;
+  public DesiredCapabilities getCaps() {
+    return this.caps;
+  }
+
+  public void setDriver(WebDriver driver) {
+    this.driver = driver;
+  }
+
+  private boolean isRemoteSessionActive() {
+    try {
+      this.driver.getCurrentUrl();
+      return true;
+    } catch (WebDriverException var2) {
+      return false;
     }
+  }
 
-    protected void failed(Throwable e, Description description) {
-        try {
-            makeScreenshot();
-        } catch (RuntimeException err) {
-            err.printStackTrace();
-        }
+  public void get(String s) {
+    this.getDriver().get(s);
+  }
 
-    }
+  public String getCurrentUrl() {
+    return this.getDriver().getCurrentUrl();
+  }
 
-    protected void skipped(AssumptionViolatedException e, Description description) {
-        makeScreenshot();
-    }
+  public String getTitle() {
+    return this.getDriver().getTitle();
+  }
 
-    @Attachment(
-            type = "image/png"
-    )
-    public byte[] makeScreenshot() {
-        return (byte[])((TakesScreenshot)(new Augmenter()).augment(this.driver)).getScreenshotAs(OutputType.BYTES);
-    }
+  public List<WebElement> findElements(By by) {
+    return this.getDriver().findElements(by);
+  }
 
-    public WebDriver getDriver() {
-        if(this.driver == null) {
-            this.driver = (new GridClient()).find(this.caps);
-        }
+  public WebElement findElement(By by) {
+    return this.getDriver().findElement(by);
+  }
 
-        return this.driver;
-    }
+  public String getPageSource() {
+    return this.getDriver().getPageSource();
+  }
 
-    public DesiredCapabilities getCaps() {
-        return this.caps;
-    }
+  public void close() {
+    this.getDriver().close();
+  }
 
-    public void setDriver(WebDriver driver) {
-        this.driver = driver;
-    }
+  public void quit() {
+    this.getDriver().quit();
+  }
 
-    public boolean isRemoteSessionActive() {
-        try {
-            this.driver.getCurrentUrl();
-            return true;
-        } catch (WebDriverException var2) {
-            return false;
-        }
-    }
+  public Set<String> getWindowHandles() {
+    return this.getDriver().getWindowHandles();
+  }
 
-    public void get(String s) {
-        this.getDriver().get(s);
-    }
+  public String getWindowHandle() {
+    return this.getDriver().getWindowHandle();
+  }
 
-    public String getCurrentUrl() {
-        return this.getDriver().getCurrentUrl();
-    }
+  public TargetLocator switchTo() {
+    return this.getDriver().switchTo();
+  }
 
-    public String getTitle() {
-        return this.getDriver().getTitle();
-    }
+  public Navigation navigate() {
+    return this.getDriver().navigate();
+  }
 
-    public List<WebElement> findElements(By by) {
-        return this.getDriver().findElements(by);
-    }
+  public Options manage() {
+    return this.getDriver().manage();
+  }
 
-    public WebElement findElement(By by) {
-        return this.getDriver().findElement(by);
-    }
+  public Keyboard getKeyboard() {
+    return ((HasInputDevices) (new Augmenter()).augment(this.driver)).getKeyboard();
+  }
 
-    public String getPageSource() {
-        return this.getDriver().getPageSource();
-    }
+  public Mouse getMouse() {
+    return ((HasInputDevices) (new Augmenter()).augment(this.driver)).getMouse();
+  }
 
-    public void close() {
-        this.getDriver().close();
-    }
+  public <X> X getScreenshotAs(OutputType<X> target) {
+    return ((TakesScreenshot) (new Augmenter()).augment(this.driver)).getScreenshotAs(target);
+  }
 
-    public void quit() {
-        this.getDriver().quit();
-    }
+  public Object executeScript(String script, Object... args) {
+    return ((JavascriptExecutor) (new Augmenter()).augment(this.driver)).executeScript(script, args);
+  }
 
-    public Set<String> getWindowHandles() {
-        return this.getDriver().getWindowHandles();
-    }
-
-    public String getWindowHandle() {
-        return this.getDriver().getWindowHandle();
-    }
-
-    public TargetLocator switchTo() {
-        return this.getDriver().switchTo();
-    }
-
-    public Navigation navigate() {
-        return this.getDriver().navigate();
-    }
-
-    public Options manage() {
-        return this.getDriver().manage();
-    }
-
-    public Keyboard getKeyboard() {
-        return ((HasInputDevices)(new Augmenter()).augment(this.driver)).getKeyboard();
-    }
-
-    public Mouse getMouse() {
-        return ((HasInputDevices)(new Augmenter()).augment(this.driver)).getMouse();
-    }
-
-    public <X> X getScreenshotAs(OutputType<X> target) {
-        return ((TakesScreenshot)(new Augmenter()).augment(this.driver)).getScreenshotAs(target);
-    }
-
-    public Object executeScript(String script, Object... args) {
-        return ((JavascriptExecutor)(new Augmenter()).augment(this.driver)).executeScript(script, args);
-    }
-
-    public Object executeAsyncScript(String script, Object... args) {
-        return ((JavascriptExecutor)(new Augmenter()).augment(this.driver)).executeAsyncScript(script, args);
-    }
+  public Object executeAsyncScript(String script, Object... args) {
+    return ((JavascriptExecutor) (new Augmenter()).augment(this.driver)).executeAsyncScript(script, args);
+  }
 }

@@ -18,10 +18,12 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  */
 
 public class DeadlineTest {
-  private WebDriver driver;
   private Steps steps;
-  //    private String serviceUrl = "http://deadline.en.cx";
-  private String serviceUrl = "http://demo.en.cx/";
+  private String serviceUrl = "http://deadline.en.cx";
+  //  private String serviceUrl = "http://demo.en.cx/";
+  private String LOGIN = "FuckIR";
+  private String PASSWORD = "password";
+  private int gameID = 57413;
 
   @Rule
   public final WebDriverRule webDriverRule = new WebDriverRule(DesiredCapabilities.firefox());
@@ -37,26 +39,54 @@ public class DeadlineTest {
 
   @Test
   public void testAddBonus() {
-    String gameID = "51825";
-    int level = 28;
+    int level = 7;
     steps.goToLink(serviceUrl);
     steps.waitMainContent();
-    steps.login();
+    steps.login(LOGIN, PASSWORD);
     steps.waitMainContent();
     steps.goToLink(serviceUrl + "/Administration/Games/LevelManager.aspx?gid=" + gameID);
-    steps.constructBonusList();
+    steps.goToLevel(level);
+    steps.deleteAllBonus();
+    steps.construct7BonusListWhite();
+    steps.construct7BonusList();
+    steps.addBonus(level);
+  }
+
+  @Test
+  public void testAdd3Bonus() {
+    int level = 3;
+    steps.goToLink(serviceUrl);
+    steps.waitMainContent();
+    steps.login(LOGIN, PASSWORD);
+    steps.waitMainContent();
+    steps.goToLink(serviceUrl + "/Administration/Games/LevelManager.aspx?gid=" + gameID);
+    steps.goToLevel(level);
+    steps.deleteAllBonus();
+    steps.construct3BonusList();
+    steps.addBonus(level);
+  }
+
+  @Test
+  public void testAddAllBonus() {
+    int level = 11;
+    steps.goToLink(serviceUrl);
+    steps.waitMainContent();
+    steps.login(LOGIN, PASSWORD);
+    steps.waitMainContent();
+    steps.goToLink(serviceUrl + "/Administration/Games/LevelManager.aspx?gid=" + gameID);
+    steps.goToLevel(level);
+    steps.constructAllBonusList();
     steps.addBonus(level);
   }
 
   @Test
   public void addEdem() {
-    String gameID = "51826";
     steps.goToLink(serviceUrl);
     steps.waitMainContent();
-    steps.login();
+    steps.login(LOGIN, PASSWORD);
     steps.waitMainContent();
     steps.goToLink(serviceUrl + "/Administration/Games/LevelManager.aspx?gid=" + gameID);
-    steps.constructBonusList();
+    steps.construct7BonusList();
     steps.addBonus(7);
     steps.addBonus(9);
     steps.addBonus(11);
@@ -83,4 +113,26 @@ public class DeadlineTest {
     steps.addBonus(79);
   }
 
+  @Test
+  public void getLevelsAndCopyToDemo() throws Exception {
+    int level = 42;
+    steps.goToLink(serviceUrl);
+    steps.waitMainContent();
+    steps.login(LOGIN, PASSWORD);
+    steps.waitMainContent();
+    steps.goToLink(serviceUrl + "/Administration/Games/LevelManager.aspx?gid=" + gameID);
+    steps.goToLevel(level);
+    steps.copyLevel();
+
+    steps.goToLink("http://demo.en.cx");
+    steps.waitMainContent();
+    steps.login(LOGIN, "demoPass");
+    steps.waitMainContent();
+    steps.goToLink("http://demo.en.cx" + "/Administration/Games/LevelManager.aspx?gid=" + 26982);
+    steps.goToLevel(5);
+    steps.addTask();
+    steps.constructDemoBonusList();
+    steps.addBonus( 5);
+    steps.addSectors();
+  }
 }

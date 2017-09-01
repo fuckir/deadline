@@ -1,133 +1,190 @@
 package ru.yandex.autotests.qa.qe.deadline.pages;
 
+import ru.yandex.qatools.htmlelements.annotations.Name;
+import ru.yandex.qatools.htmlelements.element.HtmlElement;
+import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
+
+
+import java.util.List;
+
+
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.annotations.Name;
-import ru.yandex.qatools.htmlelements.element.HtmlElement;
-import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
 
 /**
  * Created by dmitrys
  * 30.10.15.
  */
 public class BonusPage {
-    private WebDriver driver;
-    private JavascriptExecutor js;
+  private WebDriver driver;
+  private JavascriptExecutor js;
 
-    public BonusPage(WebDriver driver) {
-        HtmlElementLoader.populatePageObject(this, driver);
-        this.driver = driver;
-        js = (JavascriptExecutor) this.driver;
-    }
+  public BonusPage(WebDriver driver) {
+    HtmlElementLoader.populatePageObject(this, driver);
+    this.driver = driver;
+    js = (JavascriptExecutor) this.driver;
+  }
 
-    @Name("Name")
-    @FindBy(xpath = "//input[@name='txtBonusName']")
-    private HtmlElement name;
+  @Name("Name")
+  @FindBy(xpath = "//input[@name='txtBonusName']")
+  private HtmlElement name;
 
-    @Name("Task")
-    @FindBy(xpath = "//textarea[@name='txtTask']")
-    private HtmlElement task;
+  @Name("Task")
+  @FindBy(xpath = "//textarea[@name='txtTask']")
+  private HtmlElement task;
 
-    @Name("First Answer")
-    @FindBy(xpath = "//input[@name='answer_-1']")
-    private HtmlElement firstAnswer;
+  @Name("First Empty Answer")
+  @FindBy(xpath = "//input[@name='answer_-1']")
+  private HtmlElement firstEmptyAnswer;
 
-    @Name("chkDelay")
-    @FindBy(xpath = "//input[@id='chkDelay']")
-    private HtmlElement chkDelay;
+  @Name("Answer List")
+  @FindBy(xpath = "//tbody[@class='answersContainer']//input")
+  private List<HtmlElement> answerList;
 
-    @Name("txtDelayHours")
-    @FindBy(xpath = "//input[@id='txtDelayHours']")
-    private HtmlElement txtDelayHours;
+  @Name("chkDelay")
+  @FindBy(xpath = "//input[@id='chkDelay']")
+  private HtmlElement chkDelay;
 
-    @Name("txtDelayMinutes")
-    @FindBy(xpath = "//input[@id='txtDelayMinutes']")
-    private HtmlElement txtDelayMinutes;
+  @Name("txtDelayHours")
+  @FindBy(xpath = "//input[@id='txtDelayHours']")
+  private HtmlElement txtDelayHours;
 
-    @Name("txtDelaySeconds")
-    @FindBy(xpath = "//input[@id='txtDelaySeconds']")
-    private HtmlElement txtDelaySeconds;
+  @Name("txtDelayMinutes")
+  @FindBy(xpath = "//input[@id='txtDelayMinutes']")
+  private HtmlElement txtDelayMinutes;
 
-    @Name("chkRelativeLimit")
-    @FindBy(xpath = "//input[@id='chkRelativeLimit']")
-    private HtmlElement chkRelativeLimit;
+  @Name("txtDelaySeconds")
+  @FindBy(xpath = "//input[@id='txtDelaySeconds']")
+  private HtmlElement txtDelaySeconds;
 
-    @Name("txtValidHours")
-    @FindBy(xpath = "//input[@id='txtValidHours']")
-    private HtmlElement txtValidHours;
+  @Name("chkRelativeLimit")
+  @FindBy(xpath = "//input[@id='chkRelativeLimit']")
+  private HtmlElement chkRelativeLimit;
 
-    @Name("txtValidMinutes")
-    @FindBy(xpath = "//input[@id='txtValidMinutes']")
-    private HtmlElement txtValidMinutes;
+  @Name("txtValidHours")
+  @FindBy(xpath = "//input[@id='txtValidHours']")
+  private HtmlElement txtValidHours;
 
-    @Name("txtValidSeconds")
-    @FindBy(xpath = "//input[@id='txtValidSeconds']")
-    private HtmlElement txtValidSeconds;
+  @Name("txtValidMinutes")
+  @FindBy(xpath = "//input[@id='txtValidMinutes']")
+  private HtmlElement txtValidMinutes;
 
-    @Name("txtHelp")
-    @FindBy(xpath = "//textarea[@name='txtHelp']")
-    private HtmlElement txtHelp;
+  @Name("txtValidSeconds")
+  @FindBy(xpath = "//input[@id='txtValidSeconds']")
+  private HtmlElement txtValidSeconds;
 
-    @Name("add bonus button")
-    @FindBy(xpath = "//input[@name='btnAdd']")
-    private HtmlElement addBonusUrl;
+  @Name("bonusHours")
+  @FindBy(xpath = "//input[@name='txtHours']")
+  private HtmlElement bonusHours;
 
-    public HtmlElement getName() {
-        return name;
-    }
+  @Name("bonusMinutes")
+  @FindBy(xpath = "//input[@name='txtMinutes']")
+  private HtmlElement bonusMinutes;
 
-    public HtmlElement getTask() {
-        return task;
-    }
+  @Name("bonusSeconds")
+  @FindBy(xpath = "//input[@name='txtSeconds']")
+  private HtmlElement bonusSeconds;
 
-    public WebElement getCurrentLevel(int levelNumber) {
-        int index = levelNumber - 1;
-        return (WebElement) js.executeScript("return $('.levelWrapper input')[" + index + "]");
-    }
+  @Name("txtHelp")
+  @FindBy(xpath = "//textarea[@name='txtHelp']")
+  private HtmlElement txtHelp;
 
-    public HtmlElement getFirstAnswer() {
-        return firstAnswer;
-    }
+  @Name("add bonus button")
+  @FindBy(xpath = "//input[@name='btnAdd']")
+  private HtmlElement addBonusUrl;
 
-    public HtmlElement getChkDelay() {
-        return chkDelay;
-    }
+  @Name("Edit Button")
+  @FindBy(xpath = "//td[@class='buttons_panel']/a[contains(@href, 'action=edit')]")
+  private HtmlElement editButton;
 
-    public HtmlElement getTxtDelayHours() {
-        return txtDelayHours;
-    }
+  @Name("Delete bonus button")
+  @FindBy(xpath = "//a[img[@title='Удалить']]")
+  private HtmlElement deleteBonusButton;
 
-    public HtmlElement getTxtDelayMinutes() {
-        return txtDelayMinutes;
-    }
+  public HtmlElement getName() {
+    return name;
+  }
 
-    public HtmlElement getTxtDelaySeconds() {
-        return txtDelaySeconds;
-    }
+  public HtmlElement getTask() {
+    return task;
+  }
 
-    public HtmlElement getChkRelativeLimit() {
-        return chkRelativeLimit;
-    }
+  public WebElement getCurrentLevel(int levelNumber) {
+    int index = levelNumber - 1;
+    return (WebElement) js.executeScript("return $('.levelWrapper input')[" + index + "]");
+  }
 
-    public HtmlElement getTxtValidHours() {
-        return txtValidHours;
-    }
+  public HtmlElement getFirstEmptyAnswer() {
+    return firstEmptyAnswer;
+  }
 
-    public HtmlElement getTxtValidMinutes() {
-        return txtValidMinutes;
-    }
+  public List<HtmlElement> getAnswerList() {
+    return answerList;
+  }
 
-    public HtmlElement getTxtValidSeconds() {
-        return txtValidSeconds;
-    }
+  public HtmlElement getChkDelay() {
+    return chkDelay;
+  }
 
-    public HtmlElement getTxtHelp() {
-        return txtHelp;
-    }
+  public HtmlElement getTxtDelayHours() {
+    return txtDelayHours;
+  }
 
-    public HtmlElement getAddBonusUrl() {
-        return addBonusUrl;
-    }
+  public HtmlElement getTxtDelayMinutes() {
+    return txtDelayMinutes;
+  }
+
+  public HtmlElement getTxtDelaySeconds() {
+    return txtDelaySeconds;
+  }
+
+  public HtmlElement getChkRelativeLimit() {
+    return chkRelativeLimit;
+  }
+
+  public HtmlElement getTxtValidHours() {
+    return txtValidHours;
+  }
+
+  public HtmlElement getTxtValidMinutes() {
+    return txtValidMinutes;
+  }
+
+  public HtmlElement getTxtValidSeconds() {
+    return txtValidSeconds;
+  }
+
+  public HtmlElement getBonusHours() {
+    return bonusHours;
+  }
+
+  public HtmlElement getBonusMinutes() {
+    return bonusMinutes;
+  }
+
+  public HtmlElement getBonusSeconds() {
+    return bonusSeconds;
+  }
+
+  public HtmlElement getTxtHelp() {
+    return txtHelp;
+  }
+
+  public HtmlElement getAddBonusUrl() {
+    return addBonusUrl;
+  }
+
+  public HtmlElement getEditButton() {
+    return editButton;
+  }
+
+  public HtmlElement getDeleteBonusButton() {
+    return deleteBonusButton;
+  }
+
+  public WebElement getCurrentAnswer(int index) {
+    return (WebElement) js.executeScript("return $(\"input[name=answer_-" + (index + 1) + "]\")[0];");
+  }
 }

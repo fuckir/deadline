@@ -12,15 +12,11 @@ import org.openqa.selenium.support.FindBy;
  * Created by dmitrys
  * 28.10.15.
  */
-public class EditPenaltyPromptPage {
+public class EditPromptPage {
 
-  public EditPenaltyPromptPage(WebDriver driver) {
+  public EditPromptPage(WebDriver driver) {
     HtmlElementLoader.populatePageObject(this, driver);
   }
-
-  @Name("Edit button")
-  @FindBy(xpath = "//a[@id='lnkEdit']")
-  private HtmlElement editButton;
 
   @Name("Content")
   @FindBy(xpath = "//div[contains(@class, 'space_content')]")
@@ -42,37 +38,13 @@ public class EditPenaltyPromptPage {
   @FindBy(xpath = "//input[@name='NewPromptTimeoutSeconds']")
   private HtmlElement promptTimeoutSeconds;
 
-  @Name("Prompt Description")
-  @FindBy(xpath = "//textarea[@name='txtPenaltyComment']")
-  private HtmlElement promptDescription;
-
   @Name("Prompt")
   @FindBy(xpath = "//textarea[@name='NewPrompt']")
   private HtmlElement prompt;
 
-  @Name("PenaltyPromptHours")
-  @FindBy(xpath = "//input[@name='PenaltyPromptHours']")
-  private HtmlElement penaltyPromptHours;
-
-  @Name("PenaltyPromptMinutes")
-  @FindBy(xpath = "//input[@name='PenaltyPromptMinutes']")
-  private HtmlElement penaltyPromptMinutes;
-
-  @Name("PenaltyPromptSeconds")
-  @FindBy(xpath = "//input[@name='PenaltyPromptSeconds']")
-  private HtmlElement penaltyPromptSeconds;
-
-  @Name("PenaltyPrompt addButton")
+  @Name("Prompt addButton")
   @FindBy(xpath = "//input[@id='btnAdd']")
   private HtmlElement addButton;
-
-  @Name("PenaltyPrompt confirm")
-  @FindBy(xpath = "//input[@id='chkRequestPenaltyConfirm']")
-  private HtmlElement confirm;
-
-  public HtmlElement getEditButton() {
-    return editButton;
-  }
 
   public HtmlElement getContent() {
     return content;
@@ -94,31 +66,11 @@ public class EditPenaltyPromptPage {
     return promptTimeoutSeconds;
   }
 
-  public HtmlElement getPromptDescription() {
-    return promptDescription;
-  }
-
   public HtmlElement getPrompt() {
     return prompt;
   }
 
-  public HtmlElement getPenaltyPromptHours() {
-    return penaltyPromptHours;
-  }
-
-  public HtmlElement getPenaltyPromptMinutes() {
-    return penaltyPromptMinutes;
-  }
-
-  public HtmlElement getPenaltyPromptSeconds() {
-    return penaltyPromptSeconds;
-  }
-
   public HtmlElement getAddButton() {
     return addButton;
-  }
-
-  public HtmlElement getConfirm() {
-    return confirm;
   }
 }

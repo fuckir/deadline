@@ -23,13 +23,13 @@ public class DeadlineTest {
   //  private String serviceUrl = "http://demo.en.cx/";
   private String LOGIN = "FuckIR";
   private String PASSWORD = "password";
-  private int gameID = 57413;
+  private int gameID = 61646;
 
   @Rule
   public final WebDriverRule webDriverRule = new WebDriverRule(DesiredCapabilities.firefox());
 
   @Before
-  public void login() throws Exception {
+  public void login() {
     WebDriver driver = webDriverRule.getDriver();
 
     steps = new Steps(driver);
@@ -49,7 +49,7 @@ public class DeadlineTest {
     steps.deleteAllBonus();
     steps.construct7BonusListWhite();
     steps.construct7BonusList();
-    steps.addBonus(level);
+    steps.addBonus();
   }
 
   @Test
@@ -63,7 +63,7 @@ public class DeadlineTest {
     steps.goToLevel(level);
     steps.deleteAllBonus();
     steps.construct3BonusList();
-    steps.addBonus(level);
+    steps.addBonus();
   }
 
   @Test
@@ -76,7 +76,7 @@ public class DeadlineTest {
     steps.goToLink(serviceUrl + "/Administration/Games/LevelManager.aspx?gid=" + gameID);
     steps.goToLevel(level);
     steps.constructAllBonusList();
-    steps.addBonus(level);
+    steps.addBonus();
   }
 
   @Test
@@ -87,52 +87,99 @@ public class DeadlineTest {
     steps.waitMainContent();
     steps.goToLink(serviceUrl + "/Administration/Games/LevelManager.aspx?gid=" + gameID);
     steps.construct7BonusList();
-    steps.addBonus(7);
-    steps.addBonus(9);
-    steps.addBonus(11);
-    steps.addBonus(14);
-    steps.addBonus(17);
-    steps.addBonus(20);
-    steps.addBonus(23);
-    steps.addBonus(27);
-    steps.addBonus(30);
-    steps.addBonus(34);
-    steps.addBonus(37);
-    steps.addBonus(40);
-    steps.addBonus(43);
-    steps.addBonus(46);
-    steps.addBonus(49);
-    steps.addBonus(52);
-    steps.addBonus(55);
-    steps.addBonus(58);
-    steps.addBonus(61);
-    steps.addBonus(66);
-    steps.addBonus(69);
-    steps.addBonus(72);
-    steps.addBonus(75);
-    steps.addBonus(79);
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
+    steps.addBonus();
   }
 
   @Test
-  public void getLevelsAndCopyToDemo() throws Exception {
-    int level = 42;
+  public void getLevelsAndCopyToDemo() {
+    int level = 1;
     steps.goToLink(serviceUrl);
     steps.waitMainContent();
     steps.login(LOGIN, PASSWORD);
     steps.waitMainContent();
-    steps.goToLink(serviceUrl + "/Administration/Games/LevelManager.aspx?gid=" + gameID);
+    steps.goToLink(serviceUrl + "/Administration/Games/LevelManager.aspx?gid=" + 59542);
     steps.goToLevel(level);
     steps.copyLevel();
 
+    steps.goToLink("http://demo.en.cx/Administration/Games/LevelManager.aspx?gid=28376");
+//    steps.waitMainContent();
+    steps.login(LOGIN, "demoPass");
+//    steps.waitMainContent();
+    steps.goToLink("http://demo.en.cx/Administration/Games/LevelManager.aspx?gid=" + 28376);
+    steps.goToLevel(6);
+    steps.addPenaltyPrompt();
+    steps.addSectors();
+    steps.addTask();
+    steps.constructDemoBonusList();
+    steps.addBonus();
+  }
+
+  @Test
+  public void market() {
     steps.goToLink("http://demo.en.cx");
     steps.waitMainContent();
     steps.login(LOGIN, "demoPass");
     steps.waitMainContent();
-    steps.goToLink("http://demo.en.cx" + "/Administration/Games/LevelManager.aspx?gid=" + 26982);
+    steps.goToLink("http://demo.en.cx/Administration/Games/LevelManager.aspx?gid=" + 28238);
     steps.goToLevel(5);
+
+    steps.constructPenalty();
+    steps.addPenaltyPrompt();
+
+    steps.constructSaleBonuses();
+    steps.addBonus();
+    steps.constructBuyBonuses();
+    steps.addBonus();
+    steps.constructHints();
+    steps.addPrompt();
+  }
+
+
+  @Test
+  public void demoCopy() {
+    steps.goToLink("http://demo.en.cx");
+    steps.waitMainContent();
+    steps.login(LOGIN, "demoPass");
+    steps.waitMainContent();
+    steps.goToLink("http://demo.en.cx/Administration/Games/LevelManager.aspx?gid=" + 28667);
+
+    int level = 20;
+    steps.goToLevel(level);
+    steps.copyLevel();
+
+    steps.goToLink(serviceUrl);
+    steps.waitMainContent();
+    steps.login(LOGIN, PASSWORD);
+    steps.waitMainContent();
+    steps.goToLink(serviceUrl + "/Administration/Games/LevelManager.aspx?gid=" + 63030);
+    steps.goToLevel(level);
+    steps.addSectors();
     steps.addTask();
     steps.constructDemoBonusList();
-    steps.addBonus( 5);
-    steps.addSectors();
+    steps.addBonus();
+    steps.addPenaltyPrompt();
   }
 }

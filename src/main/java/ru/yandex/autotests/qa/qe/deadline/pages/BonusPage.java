@@ -5,6 +5,7 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -103,6 +104,10 @@ public class BonusPage {
   @FindBy(xpath = "//a[img[@title='Удалить']]")
   private HtmlElement deleteBonusButton;
 
+  @Name("List level Available")
+  @FindBy(xpath = "//div[@class='levelWrapper'][div//input[@checked]]//span")
+  private List<HtmlElement> levelAvailableElementList;
+
   public HtmlElement getName() {
     return name;
   }
@@ -186,5 +191,17 @@ public class BonusPage {
 
   public WebElement getCurrentAnswer(int index) {
     return (WebElement) js.executeScript("return $(\"input[name=answer_-" + (index + 1) + "]\")[0];");
+  }
+
+  public WebElement getTenMoreAnswers() {
+    return (WebElement) js.executeScript("return $(\".dashed:contains('10')\")[0];");
+  }
+
+  public List<Integer> getLevelAvailableElementList() {
+    List<Integer> levelAvailableList = new ArrayList<>();
+    for (HtmlElement level : levelAvailableElementList) {
+      levelAvailableList.add(Integer.parseInt(level.getText()));
+    }
+    return levelAvailableList;
   }
 }
